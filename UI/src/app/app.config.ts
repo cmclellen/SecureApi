@@ -12,7 +12,8 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     auth: {
       clientId: "7cfaf5c1-72a4-4fc5-9d01-3ee9e0d9e322",
       redirectUri: process.env['REDIRECT_URI'],
-      postLogoutRedirectUri: process.env['REDIRECT_URI']
+      postLogoutRedirectUri: process.env['REDIRECT_URI'],
+      authority: 'https://login.microsoftonline.com/dca5775e-99b4-497c-90c1-c8e73396999e'
     },
     cache: {
       cacheLocation: BrowserCacheLocation.LocalStorage
@@ -34,9 +35,9 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
   return { 
     interactionType: InteractionType.Redirect,
     authRequest: {
-      scopes: ['cities.read']
+      scopes: ['api://67226661-dd54-471e-a51e-36312accd09f/cities.read']
     },
-    loginFailedRoute: "./login-failed"
+    loginFailedRoute: "login-failed"
   };
 }
 
