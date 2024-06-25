@@ -24,7 +24,7 @@ public class GetPlaces(
     {
         var path = Path.Join(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "au.csv");
 
-        var user = req.HttpContext.User.FindFirst("name")!.Value;
+        var user = req.HttpContext.User.Identity!.Name;
 
         logger.LogInformation("Current directory is {CurrentDirectory} {UserName}.", path, user);
 

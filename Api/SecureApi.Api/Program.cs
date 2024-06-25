@@ -1,13 +1,11 @@
-﻿using Google.Protobuf.WellKnownTypes;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Web;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
+using SecureApi.Api;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWebApplication(builder =>
@@ -41,11 +39,9 @@ var host = new HostBuilder()
             {
                 options.Authority = "https://login.microsoftonline.com/dca5775e-99b4-497c-90c1-c8e73396999e/v2.0";
                 options.Audience = "67226661-dd54-471e-a51e-36312accd09f";
+                //options.MapInboundClaims = false;
             });
-        //services.Configure<IdentityOptions>(options =>
-        //{
-        //    options.ClaimsIdentity.UserNameClaimType = "name";
-        //});
+        services.AddTransient<IClaimsTransformation, EntraIdClaimsTransformation>();
 
         services.AddHttpContextAccessor();
         services.AddMicrosoftIdentityWebApiAuthentication(ctx.Configuration);
