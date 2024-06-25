@@ -20,14 +20,14 @@ export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
     auth: auth,
     cache: {
-      cacheLocation: BrowserCacheLocation.LocalStorage
+      cacheLocation: BrowserCacheLocation.LocalStorage,
     },
   });
 }
 
 export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, Array<string>>();
-  //protectedResourceMap.set("https://graph.microsoft.com/v1.0/me", ["user.read"]);
+  protectedResourceMap.set(`${process.env['REDIRECT_URI']}api/GetPlaces`, ["api://67226661-dd54-471e-a51e-36312accd09f/cities.read"]);
 
   return {
     interactionType: InteractionType.Redirect,
@@ -51,7 +51,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes), 
     provideHttpClient(withInterceptorsFromDi()),
     { provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: MsalInterceptor, multi: true },
     {
       provide: "BASE_API_URL", useValue: process.env['BASE_API_URL']
