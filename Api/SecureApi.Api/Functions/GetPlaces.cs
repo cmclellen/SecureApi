@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -13,21 +14,24 @@ using SecureApi.Api.Models;
 
 namespace SecureApi.Api.Functions;
 
-public static class GetPlaces
+public class GetPlaces(ILogger<GetPlaces> logger)
 {
     [FunctionName(nameof(GetPlaces))]
-    public static async Task<IActionResult> Run(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)]
-        HttpRequest req,
-        ILogger log)
+    public async Task<IActionResult> Run(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)]
+        HttpRequest req, ExecutionContext context)
     {
         var config = new CsvConfiguration(CultureInfo.InvariantCulture)
         {
             HasHeaderRecord = true
         };
-        using var reader = new StreamReader("au.csv");
+        //var path = Path.Join(context.FunctionAppDirectory, "au.csv");
+        var path = Path.Join(context.FunctionDirectory, "au.csv");
+        logger.LogInformation("Current directory is {CurrentDirectory}.", path);
+        using var reader = new StreamReader(path);
         using var csv = new CsvReader(reader, config);
         var records = csv.GetRecords<CityModel>().ToList();
+        await Task.CompletedTask;
         return new JsonResult(records);
     }
 }
