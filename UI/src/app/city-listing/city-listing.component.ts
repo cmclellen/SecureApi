@@ -20,7 +20,6 @@ export class CityListingComponent implements OnInit {
 
   ngOnInit() {
     this.cityService.getCities().subscribe((response: any) => {
-      console.log('Hello ' + process.env['API_KEY'])
       this.cities = response;
     });
   }
