@@ -7,14 +7,18 @@ import { BaseUrlInterceptor } from './base-url.interceptor';
 import { BrowserCacheLocation, IPublicClientApplication, InteractionType, PublicClientApplication } from '@azure/msal-browser';
 import { MSAL_GUARD_CONFIG, MSAL_INSTANCE, MSAL_INTERCEPTOR_CONFIG, MsalBroadcastService, MsalGuard, MsalGuardConfiguration, MsalInterceptor, MsalInterceptorConfiguration, MsalModule, MsalService } from '@azure/msal-angular';
 
+var auth = {
+  clientId: "7cfaf5c1-72a4-4fc5-9d01-3ee9e0d9e322",
+  redirectUri: process.env['REDIRECT_URI'],
+  postLogoutRedirectUri: process.env['REDIRECT_URI'],
+  authority: 'https://login.microsoftonline.com/dca5775e-99b4-497c-90c1-c8e73396999e'
+};
+
+console.log(auth);
+
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
-    auth: {
-      clientId: "7cfaf5c1-72a4-4fc5-9d01-3ee9e0d9e322",
-      redirectUri: process.env['REDIRECT_URI'],
-      postLogoutRedirectUri: process.env['REDIRECT_URI'],
-      authority: 'https://login.microsoftonline.com/dca5775e-99b4-497c-90c1-c8e73396999e'
-    },
+    auth: auth,
     cache: {
       cacheLocation: BrowserCacheLocation.LocalStorage
     },

@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using SecureApi.Api.Models;
-using Microsoft.Azure.Functions.Worker;
 
 namespace SecureApi.Api.Functions;
 
-public class GetPlaces(ILogger<GetPlaces> logger)
+public class GetPlaces(
+    ILogger<GetPlaces> logger)
 {
     [Function(nameof(GetPlaces))]
     public async Task<IActionResult> Run(
@@ -22,8 +22,6 @@ public class GetPlaces(ILogger<GetPlaces> logger)
         {
             HasHeaderRecord = true
         };
-        //var path = Path.Join(context.FunctionAppDirectory, "au.csv");
-        
         var path = Path.Join(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "au.csv");
         logger.LogInformation("Current directory is {CurrentDirectory}.", path);
         using var reader = new StreamReader(path);
