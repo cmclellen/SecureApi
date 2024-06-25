@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build-prd": "set NODE_ENV=prd&&ng build",    
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
