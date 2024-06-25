@@ -24,8 +24,12 @@ var auth = {
     clientId: "7cfaf5c1-72a4-4fc5-9d01-3ee9e0d9e322",
     redirectUri: process.env['REDIRECT_URI'],
     postLogoutRedirectUri: process.env['REDIRECT_URI'],
-    authority: 'https://login.microsoftonline.com/dca5775e-99b4-497c-90c1-c8e73396999e'
+    authority: `https://login.microsoftonline.com/${process.env['TENANT_ID']}`
 };
+
+const partScope = "cities.read";
+const fullScope = `api://67226661-dd54-471e-a51e-36312accd09f/${partScope}`;
+const scopes = ['openid', 'email', 'profile', 'offline_access', fullScope];
 
 console.log(auth);
 
@@ -34,13 +38,16 @@ export function MSALInstanceFactory(): IPublicClientApplication {
         auth: auth,
         cache: {
             cacheLocation: BrowserCacheLocation.LocalStorage,
+            storeAuthStateInCookie: false
         },
     });
 }
 
 export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
     const protectedResourceMap = new Map<string, Array<string>>();
-    protectedResourceMap.set(`${process.env['REDIRECT_URI']}api/GetPlaces`, ["api://67226661-dd54-471e-a51e-36312accd09f/cities.read"]);
+    const baseApiUrl = <string>process.env['BASE_API_URL'];
+    console.log(`Setting ${baseApiUrl}...`);
+    protectedResourceMap.set(baseApiUrl, scopes);
 
     return {
         interactionType: InteractionType.Redirect,
@@ -52,7 +59,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     return {
         interactionType: InteractionType.Redirect,
         authRequest: {
-            scopes: ['api://67226661-dd54-471e-a51e-36312accd09f/cities.read']
+            scopes: scopes
         },
         loginFailedRoute: "login-failed"
     };
