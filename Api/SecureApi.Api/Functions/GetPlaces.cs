@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Reflection;
 using CsvHelper;
 using CsvHelper.Configuration;
 using Microsoft.AspNetCore.Http;
@@ -22,7 +23,8 @@ public class GetPlaces(ILogger<GetPlaces> logger)
             HasHeaderRecord = true
         };
         //var path = Path.Join(context.FunctionAppDirectory, "au.csv");
-        var path = Path.Join(Directory.GetCurrentDirectory(), "au.csv");
+        
+        var path = Path.Join(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "au.csv");
         logger.LogInformation("Current directory is {CurrentDirectory}.", path);
         using var reader = new StreamReader(path);
         using var csv = new CsvReader(reader, config);
