@@ -20,17 +20,6 @@ var host = new HostBuilder()
     {
         services.AddApplicationInsightsTelemetryWorkerService();
         services.ConfigureFunctionsApplicationInsights();
-        services.AddCors(o => o.AddPolicy("default", builder =>
-        {
-            builder.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader();
-        }));
-        //var azureAd = ctx.Configuration.GetSection("AzureAd");
-        //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        //    .AddMicrosoftIdentityWebApi(azureAd);
-        //services.AddAuthorization(options => options.FallbackPolicy = options.DefaultPolicy);
-
         services
             .AddFunctionsAuthentication(JwtBearerDefaults.AuthenticationScheme)
             // This is important as Bearer scheme is used by the runtime
@@ -39,7 +28,6 @@ var host = new HostBuilder()
             {
                 options.Authority = "https://login.microsoftonline.com/dca5775e-99b4-497c-90c1-c8e73396999e/v2.0";
                 options.Audience = "67226661-dd54-471e-a51e-36312accd09f";
-                //options.MapInboundClaims = false;
             });
         services.AddTransient<IClaimsTransformation, EntraIdClaimsTransformation>();
 
