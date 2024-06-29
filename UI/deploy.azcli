@@ -1,4 +1,0 @@
-$STORAGE_ACCOUNT_NAME="stsecureapispadevaue"
-$TENANT_ID="dca5775e-99b4-497c-90c1-c8e73396999e"
-C:\utils\azcopy login --tenant-id $TENANT_ID
-C:\utils\azcopy copy ".\dist\secure-api-ui\*" "https://$($STORAGE_ACCOUNT_NAME).blob.core.windows.net/`$web" --recursive=true
