@@ -3,11 +3,7 @@
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "FUNCTIONS_INPROC_NET8_ENABLED": "1",
-    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-    "AzureAd__Instance": "https://login.microsoftonline.com/",
-    "AzureAd__ClientId": "67226661-dd54-471e-a51e-36312accd09f",
-    "AzureAd__TenantId": "dca5775e-99b4-497c-90c1-c8e73396999e",
-    "AzureAd__Audience": "api://67226661-dd54-471e-a51e-36312accd09f"    
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated"
   },
   "Host": {
     "CORS": "*"

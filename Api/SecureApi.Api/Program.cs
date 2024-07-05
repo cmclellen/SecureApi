@@ -4,7 +4,6 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Identity.Web;
 using SecureApi.Api;
 
 var host = new HostBuilder()
@@ -29,10 +28,11 @@ var host = new HostBuilder()
                 options.Authority = "https://login.microsoftonline.com/dca5775e-99b4-497c-90c1-c8e73396999e/v2.0";
                 options.Audience = "67226661-dd54-471e-a51e-36312accd09f";
             });
+        services.AddFunctionsAuthorization();
         services.AddTransient<IClaimsTransformation, EntraIdClaimsTransformation>();
 
         services.AddHttpContextAccessor();
-        services.AddMicrosoftIdentityWebApiAuthentication(ctx.Configuration);
+
         services.Configure<LoggerFilterOptions>(options =>
         {
             // The Application Insights SDK adds a default logging filter that instructs ILogger to capture only Warning and more severe logs. Application Insights requires an explicit override.
